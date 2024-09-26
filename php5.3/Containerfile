@@ -1,0 +1,18 @@
+FROM registry.access.redhat.com/ubi7/ubi-init:7.9
+RUN SMDEV_CONTAINER_OFF=1 subscription-manager register --org=11009103 --activationkey=otrifirg-activation-key
+RUN SMDEV_CONTAINER_OFF=1 subscription-manager release --set 7.9
+RUN SMDEV_CONTAINER_OFF=1 subscription-manager repos --enable=rhel-7-server-optional-rpms
+RUN yum update -y && yum install -y php php-fpm
+RUN SMDEV_CONTAINER_OFF=1 subscription-manager unregister && yum clean all && echo -e '[main]\nenabled=0' > /etc/yum/pluginconf.d/subscription-manager.conf
+# RUN yum -y install httpd; yum clean all; systemctl enable httpd;
+# RUN echo "Successful Web Server Test" > /var/www/html/index.html
+# RUN mkdir /etc/systemd/system/httpd.service.d/; echo -e '[Service]\nRestart=always' > /etc/systemd/system/httpd.service.d/httpd.conf
+# RUN dnf -y module install php:7.4/common; dnf clean all; systemctl enable php-fpm;
+# RUN dnf -y install php-mysqlnd;
+# COPY --from=docker.io/composer/composer:2.5.1-bin /composer /usr/local/bin/composer
+# RUN dnf -y install zip unzip git
+# RUN composer create-project --prefer-dist laravel/laravel:^8.0 /var/www/app
+# COPY app.conf /etc/httpd/conf.d/app.conf
+# RUN chown -R apache:apache /var/www/app && chmod -R 755 /var/www/app
+# EXPOSE 80
+# CMD [ "/sbin/init" ]
